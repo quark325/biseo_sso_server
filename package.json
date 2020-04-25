@@ -1,0 +1,29 @@
+{
+  "name": "biseo_sso_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quark325/biseo_sso_server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/quark325/biseo_sso_server/issues"
+  },
+  "homepage": "https://github.com/quark325/biseo_sso_server#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "connect-redis": "^4.0.4",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "ioredis": "^4.16.3",
+    "jsonwebtoken": "^8.5.1",
+    "querystring": "^0.2.0"
+  }
+}
