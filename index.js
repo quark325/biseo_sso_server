@@ -1,9 +1,11 @@
-const express = require('express')
-const session = require('express-session')
-const Redis = require('ioredis')
-const connectRedis = require('connect-redis')
+import express from 'express'
+import session from 'express-session'
+import Redis from 'ioredis'
+import connectRedis from 'connect-redis'
+import jwt from 'jsonwebtoken';
 
-const client = require('./utils/sso.js')
+import client from './utils/sso.js'
+import { jwtSign } from './utils/jwt.js'
 
 const app = express()
 const RedisStore = connectRedis(session)
@@ -39,11 +41,21 @@ app.get('/account/login/callback', async (req, res) => {
 	const {code, state} = req.query
 	const stateBefore = req.session.state 
 	if (stateBefore !== state) {
-		throw new Error('TOKEN MISMATCH: session might be hijacked!');
+		res.status(401).json({
+			error: 'TOKEN MISMATCH: session might be hijacked!',
+			status: 401,
+		})
+		return
 	}
-
-	const userData = await client.getUserInfo(code); 
-	res.json(userData)	
+	
+	const user = await client.getUserInfo(code); 
+	const token = jwtSign (user, app.get('jwt-secret'))
+	
+	console.log('jwt-token:', token)
+	res.status(200).json({
+		token: token,
+		status: 200,
+	})	
 })
 
 app.listen(app.get('port'), () => {

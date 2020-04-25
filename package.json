@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "nodemon index.js --exec babel-node"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,11 @@
     "ioredis": "^4.16.3",
     "jsonwebtoken": "^8.5.1",
     "querystring": "^0.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "nodemon": "^2.0.3"
   }
 }
