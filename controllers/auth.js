@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken'
-
 import { jwtSign } from '../utils/jwt.js'
 import client from '../utils/sso.js'
 
@@ -21,7 +20,9 @@ const authCheck = (req, res) => {
 const login = (req, res) => {
 	const {url, state} = client.getLoginParams()
 	req.session.state = state
-	res.redirect(url)
+	res.json({
+		url: url
+	})
 }
 
 const loginCallback = async (req, res) => {
@@ -37,7 +38,6 @@ const loginCallback = async (req, res) => {
 	
 	const user = await client.getUserInfo(code)
 	const token = jwtSign(user, req.app.get('jwt-secret'))
-	console.log('jwt-token', token)
 	res.status(200).json({
 		token: token,
 		status: 200,

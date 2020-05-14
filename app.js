@@ -1,6 +1,7 @@
 import express from 'express'
 import session from 'express-session'
 import Redis from 'ioredis'
+import cors from 'cors'
 import connectRedis from 'connect-redis'
 
 import routes from './routes'
@@ -8,13 +9,16 @@ import routes from './routes'
 const app = express()
 const RedisStore = connectRedis(session)
 const redisClient = new Redis(3001)
-
+app.use(cors({
+	origin: 'http://kong.sparcs.org:7300',
+	credentials: true
+}))
 app.use(express.json())
 app.use(express.static('public'))
 
 app.use(session({
 	resave: false,
-	saveUninitialized: false,
+	saveUninitialized: true,
 	secret: process.env.REDIS_SECRET,
 	store: new RedisStore({
 		client: redisClient
